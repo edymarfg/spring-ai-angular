@@ -31,10 +31,27 @@
 }
 
 .messages {
-  flex: 1;
   margin-bottom: 16px;
-  overflow-y: auto;
   padding-right: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.typing {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typing 1s steps(10) infinite alternate;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
 }
 
 .chat-input {

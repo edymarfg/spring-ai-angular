@@ -1,12 +1,13 @@
 package com.efg.api_ai.controller;
 
+import com.efg.api_ai.controller.record.ChatMessage;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.constraints.NotNull;
 
 @RestController
+@RequestMapping("/api/chat")
 public class ChatController {
 
     private final ChatClient chatClient;
@@ -15,11 +16,12 @@ public class ChatController {
         this.chatClient = chatClientBuilder.build();
     }
 
-    @GetMapping("/ai")
-    String generation(String userInput) {
-        return this.chatClient.prompt()
-            .user(userInput)
+    @PostMapping
+    ChatMessage simpleChat(@RequestBody ChatMessage message) {
+        var response = this.chatClient.prompt()
+            .user(message.message())
             .call()
             .content();
+        return new ChatMessage(response);
     }
 }
